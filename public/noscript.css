@@ -1,0 +1,26 @@
+body > * :not(.noscript) {
+  display: none;
+}
+
+div.noscript {
+  display: flex !important;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 50px;
+}
+
+a.noscript {
+  display: inline;
+  text-decoration: underline;
+  color: #116abd;
+}
+
+h3.noscript {
+  display: block;
+  text-align: center;
+}
