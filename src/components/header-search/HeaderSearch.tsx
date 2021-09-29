@@ -1,48 +1,75 @@
-import { Input, Dropdown, IconSearch, IDropdownCategory } from "@caisy/league";
-import React from "react";
+import { Input, Dropdown, IconSearch, IDropdownCategory, Popover, DropdownResultsList } from "@caisy/league";
+import React, { useRef } from "react";
 import { SHeaderSearch } from "./styles/SHeaderSearch";
+import lunr from "lunr";
 
 interface IHeaderSearch {
   _?: null;
 }
 
+const dataArray = [
+  {
+    key: "test",
+    visible: true,
+    items: [
+      {
+        key: "Badges",
+        label: "Badges",
+        visible: true,
+      },
+      {
+        key: "Button external link",
+        label: "Button external link",
+        visible: true,
+      },
+      {
+        key: "Button internal pages",
+        label: "Button internal pages",
+        visible: true,
+      },
+    ],
+  },
+];
+
 export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
-  const [categories, setCategories] = React.useState<IDropdownCategory[]>([
-    {
-      key: "test",
-      visible: true,
-      items: [
-        {
-          key: "Badges",
-          label: "Badges",
-          visible: true,
-        },
-        {
-          key: "Button external link",
-          label: "Button external link",
-          visible: true,
-        },
-        {
-          key: "Button internal pages",
-          label: "Button internal pages",
-          visible: true,
-        },
-      ],
-    },
-  ]);
+  const [categories, setCategories] = React.useState<IDropdownCategory[]>(dataArray);
+  const ref: any = useRef();
+  const containerRef: any = useRef();
+
+  var idx = lunr(function () {
+    this.ref('key')
+    this.field('label')
+    this.field('items')
+  
+    categories.forEach(function (category) {
+      this.add(category)
+    }, this)
+  });
+
   const onSelect = (e) => {
     setDropdownOpen(false);
   };
+
+  const onClickOutside = () => {
+    setDropdownOpen(false);
+  };
+
   const onChange = (e) => {
     console.log(` e`, e);
     setInputValue(e.target.value);
     setDropdownOpen(true);
+    console.log("input", inputValue);
+    if (inputValue.length > 0) {
+      setCategories(idx.search(e.target.value));
+    } else { 
+      setCategories(dataArray); 
+    }
   };
 
   return (
-    <SHeaderSearch>
+    <SHeaderSearch ref={containerRef}>
       <Input
         // onClose={props.onClose}
         hasCloseButton
@@ -50,7 +77,13 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
         value={inputValue}
         onChange={(e) => onChange(e)}
       />
-      <Dropdown dropDownPosition={0} categories={categories} active={dropdownOpen} onSelect={(e) => onSelect(e)} />
+      {containerRef.current && (
+        <Popover container={ref} onClickOutside={onClickOutside} disableTriangle placement="bottom" reference={ref}>
+          {dropdownOpen && (
+              <DropdownResultsList categories={categories} active={dropdownOpen} onSelect={(e) => onSelect(e)} />
+          )}
+        </Popover>
+      )}
     </SHeaderSearch>
   );
 };
