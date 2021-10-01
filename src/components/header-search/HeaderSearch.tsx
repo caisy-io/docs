@@ -43,7 +43,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     this.field('label')
     this.field('items')
   
-    categories.forEach(function (category) {
+    dataArray.forEach(function (category) {
       this.add(category)
     }, this)
   });
@@ -58,10 +58,13 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
 
   const onChange = (e) => {
     console.log(` e`, e);
+    console.log("old categories", categories);
+
     setInputValue(e.target.value);
     setDropdownOpen(true);
-    console.log("input", inputValue);
-    if (inputValue.length > 0) {
+
+    if (e.target.value.length > 0) {
+      console.log(idx.search(e.target.value));
       setCategories(idx.search(e.target.value));
     } else { 
       setCategories(dataArray); 
@@ -79,9 +82,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
       />
       {containerRef.current && (
         <Popover container={ref} onClickOutside={onClickOutside} disableTriangle placement="bottom" reference={ref}>
-          {dropdownOpen && (
-              <DropdownResultsList categories={categories} active={dropdownOpen} onSelect={(e) => onSelect(e)} />
-          )}
+          <DropdownResultsList categories={categories} active={dropdownOpen} onSelect={(e) => onSelect(e)} />
         </Popover>
       )}
     </SHeaderSearch>
