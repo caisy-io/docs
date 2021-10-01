@@ -65,7 +65,6 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   const updateData = () => {
     const data = [];
     categories.forEach((i) => data.push(i['item']));
-    console.log(data);
     return data;
   }
 
@@ -73,7 +72,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     includeScore: true,
     distance: 2,
     includeMatches: true,
-    keys: ['items.label', 'label']
+    keys: ['items.label']
   })
 
   const onClickOutside = () => {
@@ -87,13 +86,13 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   };
 
   const onChange = (e) => {
-    console.log(` e`, e);
     setInputValue(e.target.value);
     setDropdownOpen(true);
-    console.log('search result', fuse.search(e.target.value))
-    console.log('highlighted search result', highlight(fuse.search(e.target.value)))
     if(e.target.value.length > 0){
-      setCategories(fuse.search(e.target.value));
+      console.log('result', fuse.search(e.target.value));
+      const res = highlight(fuse.search(e.target.value));
+      console.log('highlighted', res);
+      setCategories(res);
     } else {
       setCategories(dataArray);
     }
