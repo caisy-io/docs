@@ -15,7 +15,7 @@ const highlight = (fuseSearchResult: any, highlightClassName: string = 'highligh
     regions.forEach(region => {
       const lastRegionNextIndex = region[1] + 1;
 
-      content += [
+      content += [ // TODO change this, so that content contains only the parts that should be highlighted
         inputText.substring(nextUnhighlightedRegionStartingIndex, region[0]),
         `<span className="${highlightClassName}">`,
         inputText.substring(region[0], lastRegionNextIndex),

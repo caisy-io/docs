@@ -3,6 +3,7 @@ import React, { Fragment, useRef } from "react";
 import { SHeaderSearch } from "./styles/SHeaderSearch";
 import Fuse from 'fuse.js'
 import { highlight } from "src/utils/highlight";
+import { HeaderDropdown } from "./HeaderDropdown";
 
 interface IHeaderSearch {
   _?: null;
@@ -109,7 +110,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
       />
       {containerRef.current && (
         <Popover container={ref} onClickOutside={onClickOutside} disableTriangle placement="bottom" reference={ref}>
-          <Dropdown dropDownPosition={1} categories={categories?.[0]?.['item'] ? updateData() : categories} active={dropdownOpen} onSelect={onSelect}/>
+          <HeaderDropdown dropDownPosition={1} categories={categories?.[0]?.['item'] ? updateData() : categories} active={dropdownOpen} onSelect={onSelect}/>
         </Popover>
       )}
     </SHeaderSearch>
