@@ -1,48 +1,106 @@
-import { Input, Dropdown, IconSearch, IDropdownCategory } from "@caisy/league";
-import React from "react";
+import { Input, Dropdown, IconSearch, IDropdownCategory, DropdownResultsList, Popover } from "@caisy/league";
+import React, { Fragment, useRef } from "react";
 import { SHeaderSearch } from "./styles/SHeaderSearch";
+import Fuse from 'fuse.js'
+import { highlight } from "src/utils/highlight";
 
 interface IHeaderSearch {
   _?: null;
 }
 
+const dataArray = [
+  {
+    "key": "test",
+    "visible": true,
+    "items": [
+      {
+        "key": "Badges",
+        "label": "Badges",
+        "visible": true,
+      },
+      {
+        "key": "Button external link",
+        "label": "Button external link",
+        "visible": true,
+      },
+      {
+        "key": "Button internal pages",
+        "label": "Button internal pages",
+        "visible": true,
+      },
+    ],
+  },
+  {
+    "key": "test2",
+    "visible": true,
+    "items": [
+      {
+        "key": "Donate",
+        "label": "donate",
+        "visible": true,
+      },
+      {
+        "key": "link",
+        "label": "link",
+        "visible": true,
+      },
+      {
+        "key": "pages",
+        "label": "pages",
+        "visible": true,
+      },
+    ],
+  },
+];
+
 export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
-  const [categories, setCategories] = React.useState<IDropdownCategory[]>([
-    {
-      key: "test",
-      visible: true,
-      items: [
-        {
-          key: "Badges",
-          label: "Badges",
-          visible: true,
-        },
-        {
-          key: "Button external link",
-          label: "Button external link",
-          visible: true,
-        },
-        {
-          key: "Button internal pages",
-          label: "Button internal pages",
-          visible: true,
-        },
-      ],
-    },
-  ]);
+  const [categories, setCategories] = React.useState<IDropdownCategory[]>(dataArray);
+
+
+  const ref: any = useRef();
+  const containerRef: any = useRef();
+
+  const updateData = () => {
+    const data = [];
+    categories.forEach((i) => data.push(i['item']));
+    console.log(data);
+    return data;
+  }
+
+  const fuse = new Fuse(dataArray, {
+    includeScore: true,
+    distance: 2,
+    includeMatches: true,
+    keys: ['items.label', 'label']
+  })
+
+  const onClickOutside = () => {
+    setDropdownOpen(false);
+    setCategories(dataArray);
+  };
+  
   const onSelect = (e) => {
     setDropdownOpen(false);
+    setCategories(dataArray);
   };
+
   const onChange = (e) => {
     console.log(` e`, e);
     setInputValue(e.target.value);
     setDropdownOpen(true);
+    console.log('search result', fuse.search(e.target.value))
+    console.log('highlighted search result', highlight(fuse.search(e.target.value)))
+    if(e.target.value.length > 0){
+      setCategories(fuse.search(e.target.value));
+    } else {
+      setCategories(dataArray);
+    }
   };
 
   return (
-    <SHeaderSearch>
+    <SHeaderSearch ref={containerRef}>
       <Input
         // onClose={props.onClose}
         hasCloseButton
@@ -50,7 +108,11 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
         value={inputValue}
         onChange={(e) => onChange(e)}
       />
-      <Dropdown dropDownPosition={0} categories={categories} active={dropdownOpen} onSelect={(e) => onSelect(e)} />
+      {containerRef.current && (
+        <Popover container={ref} onClickOutside={onClickOutside} disableTriangle placement="bottom" reference={ref}>
+          <Dropdown dropDownPosition={1} categories={categories?.[0]?.['item'] ? updateData() : categories} active={dropdownOpen} onSelect={onSelect}/>
+        </Popover>
+      )}
     </SHeaderSearch>
   );
 };
