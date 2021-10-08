@@ -70,8 +70,8 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     keys: ['items.label']
   });
 
-  const onClickOutside = () => {
-    if (dropdownOpen){
+  const onClickOutside = (e) => {
+    if (dropdownOpen && e.target.type !== "text"){
       setDropdownOpen(false);
       setCategories(dataArray);
       setInputValue("");
