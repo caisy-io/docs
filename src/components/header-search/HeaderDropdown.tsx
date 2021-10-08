@@ -18,6 +18,7 @@ interface IDropdownProps {
 
 export const HeaderDropdown = ({ categories, active, onSelect, dropdownWidth, selected, renderItem }: IDropdownProps) => {
     const [currentOptionIndex, setCurrentOptionIndex] = useState<number>(-1);
+    console.log('categories', categories)
     const flatCategories = categories.flatMap((c) => c.items.filter((i) => i.visible));
 
     useEffect(() => {
@@ -103,7 +104,7 @@ export const HeaderDropdown = ({ categories, active, onSelect, dropdownWidth, se
                               {renderItem ? renderItem(categoryItem) : categoryItem.label}
                             </SDropdownOption>
                           )}
-                          {categoryItem.highlighted && categoryItem.label &&( 
+                          {categoryItem.highlighted && categoryItem.label && ( 
                               <SDropdownOption
                                 className={`${
                                     categoryItem.visible ? "dropdown-option-visible" : "dropdown-option-invisible"
@@ -116,8 +117,9 @@ export const HeaderDropdown = ({ categories, active, onSelect, dropdownWidth, se
                                 onClick={() => onSelect(categoryItem.key)}
                                 selected={selected?.(categoryItem.key)}
                                 >
-                                    <span className="highlighted">{categoryItem.highlighted}</span>
                                     <span>{categoryItem.label.split(categoryItem.highlighted)[0]}</span>
+                                    <span className="highlighted">{categoryItem.highlighted}</span>
+                                    <span>{categoryItem.label.split(categoryItem.highlighted)[1]}</span>
                                 </SDropdownOption>
                           )}
                         </Fragment>

@@ -9,7 +9,7 @@ export const SDropdownOption = styled.li<any>`
   height: 30px;
   line-height: 30px;
   align-items: center;
-  padding: 0 16px;
+  padding: 10px 16px;
   font-size: 14px;
   transition: 0.2s;
   &:not(:hover),
@@ -29,6 +29,11 @@ export const SDropdownOption = styled.li<any>`
   &:hover {
     color: var(--primary-400);
     background-color: var(--primary-100);
+  }
+
+  .highlighted {
+    background-color: var(--primary-100);
+    border-radius: 20%;
   }
 
   ${(props) => props.selected && "color: var(--primary-400); background-color: var(--primary-100);"}

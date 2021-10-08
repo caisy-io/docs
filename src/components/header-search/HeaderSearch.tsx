@@ -62,12 +62,6 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   const popoverRef: React.MutableRefObject<any> = useRef();
   const containerRef: React.MutableRefObject<any> = useRef();
 
-  const updateData = () => {
-    const data = [];
-    categories.forEach((i) => data.push(i['item']));
-    return data;
-  }
-
   const fuse = new Fuse(dataArray, {
     includeScore: true,
     distance: 2,
@@ -112,7 +106,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
           <Popover disableTriangle reference={popoverRef} container={popoverRef} placement="bottom" onClickOutside={onClickOutside}>
             <HeaderDropdown 
               dropDownPosition={1} 
-              categories={categories?.[0]?.['item'] ? updateData() : categories} 
+              categories={categories?.[0]?.['item'] ? categories?.[0]?.['item'] : categories}  // TODO fix hard coded 0
               active={dropdownOpen} 
               onSelect={onSelect}
             />

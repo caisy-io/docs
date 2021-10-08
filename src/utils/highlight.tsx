@@ -5,27 +5,20 @@
 const highlight = (fuseSearchResult: any, highlightClassName: string = 'highlight') => {
   const set = (obj: object, path: string, value: any, refIndex: number) => {
     const pathValue = path.split('.');
-    obj[pathValue[0]][refIndex]['highlighted'] = value;
+    obj[pathValue[0]][refIndex]['highlighted'] = value; // TODO fix hard coded 0?
 };
 
   const generateHighlightedText = (inputText: string, regions: number[] = []) => {
     let content = '';
-    let nextUnhighlightedRegionStartingIndex = 0;
 
     regions.forEach(region => {
       const lastRegionNextIndex = region[1] + 1;
 
-      content += [ // TODO change this, so that content contains only the parts that should be highlighted
-        inputText.substring(nextUnhighlightedRegionStartingIndex, region[0]),
-        `<span className="${highlightClassName}">`,
+      content += [
         inputText.substring(region[0], lastRegionNextIndex),
-        '</span>',
       ].join('');
-
-      nextUnhighlightedRegionStartingIndex = lastRegionNextIndex;
     });
 
-    content += inputText.substring(nextUnhighlightedRegionStartingIndex);
     return content;
   };
 
@@ -33,12 +26,10 @@ const highlight = (fuseSearchResult: any, highlightClassName: string = 'highligh
     .filter(({ matches }: any) => matches && matches.length)
     .map(({ item, matches }: any) => {
       const highlightedItem = { ...item };
-      console.log('highlightedItem' + highlightedItem);
 
       matches.forEach((match: any) => {
         set(highlightedItem, match.key, generateHighlightedText(match.value, match.indices), match.refIndex);
       });
-      console.log('highlighted item: ' + JSON.stringify(highlightedItem));
 
       return highlightedItem;
     });
