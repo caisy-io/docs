@@ -70,8 +70,11 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   })
 
   const onClickOutside = () => {
-    setDropdownOpen(false);
-    setCategories(dataArray);
+    if (dropdownOpen){
+      setDropdownOpen(false);
+      setCategories(dataArray);
+      setInputValue('');
+    }
   };
   
   const onSelect = (selectedCategory) => {
@@ -120,7 +123,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
           >
             <HeaderDropdown 
               dropDownPosition={1} 
-              categories={categories?.[0]?.['item'] ? categories?.[0]?.['item'] : categories}  // TODO fix hard coded 0
+              categories={categories}
               active={dropdownOpen} 
               onSelect={onSelect}
             />

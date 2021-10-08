@@ -1,11 +1,9 @@
 // src: https://gist.github.com/evenfrost/1ba123656ded32fb7a0cd4651efd4db0
 
-// TODO improve set to be more flexible 
-
 const highlight = (fuseSearchResult: any, highlightClassName: string = 'highlight') => {
   const set = (obj: object, path: string, value: any, refIndex: number) => {
     const pathValue = path.split('.');
-    obj[pathValue[0]][refIndex]['highlighted'] = value; // TODO fix hard coded 0?
+    obj[pathValue[0]][refIndex]['highlighted'] = value;
 };
 
   const generateHighlightedText = (inputText: string, regions: number[] = []) => {
