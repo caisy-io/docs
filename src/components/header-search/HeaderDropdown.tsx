@@ -106,7 +106,7 @@ export const HeaderDropdown = ({ categories, active, onSelect, dropdownWidth, se
                                     <span className="highlighted">{categoryItem.highlighted}</span>
                                     <span>{categoryItem.label.split(categoryItem.highlighted)[1]}</span>
                                   </>)
-                                  : // TODO unwanted behavior, when input value becomes '' -> there should be no highlights
+                                  :
                                   renderItem ? renderItem(categoryItem) : categoryItem.label
                                 }
                             </SDropdownOption>

@@ -1,5 +1,5 @@
-import { Input, Dropdown, IconSearch, IDropdownCategory, DropdownResultsList, Popover } from "@caisy/league";
-import React, { Fragment, useRef } from "react";
+import { Input, IconSearch, IDropdownCategory, Popover } from "@caisy/league";
+import React, { useRef } from "react";
 import { SHeaderSearch } from "./styles/SHeaderSearch";
 import Fuse from 'fuse.js'
 import { highlight } from "src/utils/highlight";
@@ -9,54 +9,55 @@ interface IHeaderSearch {
   _?: null;
 }
 
-const dataArray = [
-  {
-    "key": "test",
-    "visible": true,
-    "items": [
-      {
-        "key": "Badges",
-        "label": "Badges",
-        "visible": true,
-      },
-      {
-        "key": "Button external link",
-        "label": "Button external link",
-        "visible": true,
-      },
-      {
-        "key": "Button internal pages",
-        "label": "Button internal pages",
-        "visible": true,
-      },
-    ],
-  },
-  {
-    "key": "test2",
-    "visible": true,
-    "items": [
-      {
-        "key": "Donate",
-        "label": "donate",
-        "visible": true,
-      },
-      {
-        "key": "link",
-        "label": "link",
-        "visible": true,
-      },
-      {
-        "key": "pages",
-        "label": "pages",
-        "visible": true,
-      },
-    ],
-  },
-];
-
 export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
+
+  const dataArray = [
+    {
+      "key": "test",
+      "visible": true,
+      "items": [
+        {
+          "key": "Badges",
+          "label": "Badges",
+          "visible": true,
+        },
+        {
+          "key": "Button external link",
+          "label": "Button external link",
+          "visible": true,
+        },
+        {
+          "key": "Button internal pages",
+          "label": "Button internal pages",
+          "visible": true,
+        },
+      ],
+    },
+    {
+      "key": "test2",
+      "visible": true,
+      "items": [
+        {
+          "key": "Donate",
+          "label": "donate",
+          "visible": true,
+        },
+        {
+          "key": "link",
+          "label": "link",
+          "visible": true,
+        },
+        {
+          "key": "pages",
+          "label": "pages",
+          "visible": true,
+        },
+      ],
+    },
+  ];
+
   const [categories, setCategories] = React.useState<IDropdownCategory[]>(dataArray);
 
   const popoverRef: React.MutableRefObject<any> = useRef();
@@ -67,7 +68,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     distance: 2,
     includeMatches: true,
     keys: ['items.label']
-  })
+  });
 
   const onClickOutside = () => {
     if (dropdownOpen){
@@ -97,12 +98,19 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     setDropdownOpen(false);
     setCategories(dataArray);
     setInputValue("");
-  }
+  };
+
+  const onClick = () => {
+    if (!dropdownOpen && inputValue.length > 0) {
+      setCategories(highlight(fuse.search(inputValue)));
+    }
+    setDropdownOpen(!dropdownOpen);
+  };
 
   return (
     <SHeaderSearch ref={containerRef}>
       <Input
-        onClick={() => setDropdownOpen(!dropdownOpen)}
+        onClick={onClick}
         onClose={onClose}
         hasCloseButton 
         icon={IconSearch}
