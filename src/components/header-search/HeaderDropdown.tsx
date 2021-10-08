@@ -9,7 +9,6 @@ interface IDropdownProps {
   active: boolean;
   categories: IDropdownCategory[];
   onSelect: (key: string) => void;
-  onClickOutside?: () => void;
   dropdownWidth?: number | string;
   dropDownPosition?: number | string;
   selected?: (value: string) => boolean | undefined;
@@ -17,8 +16,7 @@ interface IDropdownProps {
   highlighted?: string;
 }
 
-export const HeaderDropdown = React.forwardRef(
-  ({ categories, active, onSelect, onClickOutside, dropdownWidth, selected, renderItem }: IDropdownProps, ref: any) => {
+export const HeaderDropdown = ({ categories, active, onSelect, dropdownWidth, selected, renderItem }: IDropdownProps) => {
     const [currentOptionIndex, setCurrentOptionIndex] = useState<number>(-1);
     const flatCategories = categories.flatMap((c) => c.items.filter((i) => i.visible));
 
@@ -70,17 +68,11 @@ export const HeaderDropdown = React.forwardRef(
 
     const reference = React.useRef(null);
 
-    const x = () => {
-      onClickOutside && onClickOutside();
-    };
-
     return (
       <div ref={reference}>
         {active && (
-          <Popover onClickOutside={x} disableTriangle placement="bottom" reference={reference}>
             <SDropdown
               style={{ width: dropdownWidth }}
-              ref={ref}
               active={active}
               className={active ? "dropdown-visible" : "dropdown-invisible"}
             >
@@ -135,9 +127,7 @@ export const HeaderDropdown = React.forwardRef(
                 );
               })}
             </SDropdown>
-          </Popover>
         )}
       </div>
     );
-  },
-);
+  };

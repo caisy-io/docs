@@ -59,9 +59,8 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
   const [categories, setCategories] = React.useState<IDropdownCategory[]>(dataArray);
 
-
-  const ref: any = useRef();
-  const containerRef: any = useRef();
+  const popoverRef: React.MutableRefObject<any> = useRef();
+  const containerRef: React.MutableRefObject<any> = useRef();
 
   const updateData = () => {
     const data = [];
@@ -103,15 +102,22 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     <SHeaderSearch ref={containerRef}>
       <Input
         // onClose={props.onClose}
-        hasCloseButton
+        hasCloseButton 
         icon={IconSearch}
         value={inputValue}
-        onChange={(e) => onChange(e)}
+        onChange={onChange}
       />
       {containerRef.current && (
-        <Popover container={ref} onClickOutside={onClickOutside} disableTriangle placement="bottom" reference={ref}>
-          <HeaderDropdown dropDownPosition={1} categories={categories?.[0]?.['item'] ? updateData() : categories} active={dropdownOpen} onSelect={onSelect}/>
-        </Popover>
+        <div ref={popoverRef}>
+          <Popover disableTriangle reference={popoverRef} container={popoverRef} placement="bottom" onClickOutside={onClickOutside}>
+            <HeaderDropdown 
+              dropDownPosition={1} 
+              categories={categories?.[0]?.['item'] ? updateData() : categories} 
+              active={dropdownOpen} 
+              onSelect={onSelect}
+            />
+          </Popover>
+        </div>
       )}
     </SHeaderSearch>
   );
