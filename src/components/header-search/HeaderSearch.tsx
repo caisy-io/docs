@@ -74,9 +74,10 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     setCategories(dataArray);
   };
   
-  const onSelect = (e) => {
+  const onSelect = (selectedCategory) => {
     setDropdownOpen(false);
     setCategories(dataArray);
+    setInputValue(selectedCategory);
   };
 
   const onChange = (e) => {
@@ -92,10 +93,17 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     }
   };
 
+  const onClose = () => {
+    setDropdownOpen(false);
+    setCategories(dataArray);
+    setInputValue('');
+  }
+
   return (
     <SHeaderSearch ref={containerRef}>
       <Input
-        // onClose={props.onClose}
+        onClick={() => setDropdownOpen(!dropdownOpen)}
+        onClose={onClose}
         hasCloseButton 
         icon={IconSearch}
         value={inputValue}
@@ -103,7 +111,13 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
       />
       {containerRef.current && (
         <div ref={popoverRef}>
-          <Popover disableTriangle reference={popoverRef} container={popoverRef} placement="bottom" onClickOutside={onClickOutside}>
+          <Popover 
+            disableTriangle 
+            reference={popoverRef}
+            container={popoverRef}
+            placement="bottom"
+            onClickOutside={onClickOutside}
+          >
             <HeaderDropdown 
               dropDownPosition={1} 
               categories={categories?.[0]?.['item'] ? categories?.[0]?.['item'] : categories}  // TODO fix hard coded 0

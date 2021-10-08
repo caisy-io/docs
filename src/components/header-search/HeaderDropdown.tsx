@@ -88,7 +88,7 @@ export const HeaderDropdown = ({ categories, active, onSelect, dropdownWidth, se
                     {category.items.map((categoryItem) => {
                       return (
                         <Fragment key={categoryItem.key}>
-                          {!categoryItem.highlighted && categoryItem.label && (
+                          {categoryItem.label && (
                             <SDropdownOption
                               className={`${
                                 categoryItem.visible ? "dropdown-option-visible" : "dropdown-option-invisible"
@@ -101,26 +101,16 @@ export const HeaderDropdown = ({ categories, active, onSelect, dropdownWidth, se
                               onClick={() => onSelect(categoryItem.key)}
                               selected={selected?.(categoryItem.key)}
                             >
-                              {renderItem ? renderItem(categoryItem) : categoryItem.label}
-                            </SDropdownOption>
-                          )}
-                          {categoryItem.highlighted && categoryItem.label && ( 
-                              <SDropdownOption
-                                className={`${
-                                    categoryItem.visible ? "dropdown-option-visible" : "dropdown-option-invisible"
-                                }${
-                                    flatCategories[currentOptionIndex] &&
-                                    categoryItem.key === flatCategories[currentOptionIndex].key
-                                    ? " current-selection"
-                                    : ""
-                                }`}
-                                onClick={() => onSelect(categoryItem.key)}
-                                selected={selected?.(categoryItem.key)}
-                                >
+                                { categoryItem.highlighted ?
+                                  (<>
                                     <span>{categoryItem.label.split(categoryItem.highlighted)[0]}</span>
                                     <span className="highlighted">{categoryItem.highlighted}</span>
                                     <span>{categoryItem.label.split(categoryItem.highlighted)[1]}</span>
-                                </SDropdownOption>
+                                  </>)
+                                  : // TODO unwanted behavior, when input value becomes '' -> there should be no highlights
+                                  renderItem ? renderItem(categoryItem) : categoryItem.label
+                                }
+                            </SDropdownOption>
                           )}
                         </Fragment>
                       );
