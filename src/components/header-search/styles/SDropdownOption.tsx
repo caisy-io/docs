@@ -33,7 +33,7 @@ export const SDropdownOption = styled.li<any>`
 
   .highlighted {
     background-color: var(--primary-100);
-    border-radius: 20%;
+    border-radius: 5%;
   }
 
   ${(props) => props.selected && "color: var(--primary-400); background-color: var(--primary-100);"}

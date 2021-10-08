@@ -100,15 +100,17 @@ export const HeaderDropdown = ({ categories, active, onSelect, dropdownWidth, se
                               onClick={() => onSelect(categoryItem.key)}
                               selected={selected?.(categoryItem.key)}
                             >
-                                {categoryItem.highlighted ?
-                                  (<>
-                                    <span>{categoryItem.label.split(categoryItem.highlighted)[0]}</span>
-                                    <span className="highlighted">{categoryItem.highlighted}</span>
-                                    <span>{categoryItem.label.split(categoryItem.highlighted)[1]}</span>
-                                  </>)
-                                  :
-                                  renderItem ? renderItem(categoryItem) : categoryItem.label
-                                }
+                              {categoryItem.highlighted?.length > 0 ? categoryItem.highlighted.map((object) => {
+                                return (
+                                  object.highlighted ? 
+                                    <span className="highlighted">{object.text}</span>
+                                  : 
+                                    <span>{object.text}</span>
+                                );
+                              })
+                              :
+                                renderItem ? renderItem(categoryItem) : categoryItem.label
+                              }
                             </SDropdownOption>
                           )}
                         </Fragment>
