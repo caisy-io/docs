@@ -73,7 +73,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     if (dropdownOpen){
       setDropdownOpen(false);
       setCategories(dataArray);
-      setInputValue('');
+      setInputValue("");
     }
   };
   
@@ -87,10 +87,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     setInputValue(e.target.value);
     setDropdownOpen(true);
     if(e.target.value.length > 0){
-      console.log('result', fuse.search(e.target.value));
-      const res = highlight(fuse.search(e.target.value));
-      console.log('highlighted', res);
-      setCategories(res);
+      setCategories(highlight(fuse.search(e.target.value)));
     } else {
       setCategories(dataArray);
     }
@@ -99,7 +96,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   const onClose = () => {
     setDropdownOpen(false);
     setCategories(dataArray);
-    setInputValue('');
+    setInputValue("");
   }
 
   return (

@@ -7,14 +7,14 @@ const highlight = (fuseSearchResult: any, highlightClassName: string = 'highligh
 };
 
   const generateHighlightedText = (inputText: string, regions: number[] = []) => {
-    let content = '';
+    let content = "";
 
     regions.forEach(region => {
       const lastRegionNextIndex = region[1] + 1;
 
       content += [
         inputText.substring(region[0], lastRegionNextIndex),
-      ].join('');
+      ].join("");
     });
 
     return content;

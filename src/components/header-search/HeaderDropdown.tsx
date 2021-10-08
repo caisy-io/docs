@@ -1,4 +1,3 @@
-import { Popover } from "@caisy/league";
 import { IDropdownCategory } from "@caisy/league/dist/components/dropdown/types";
 import React, { useState, useEffect, Fragment } from "react";
 import { SDropdown } from "./styles/SDropdown";
@@ -101,7 +100,7 @@ export const HeaderDropdown = ({ categories, active, onSelect, dropdownWidth, se
                               onClick={() => onSelect(categoryItem.key)}
                               selected={selected?.(categoryItem.key)}
                             >
-                                { categoryItem.highlighted ?
+                                {categoryItem.highlighted ?
                                   (<>
                                     <span>{categoryItem.label.split(categoryItem.highlighted)[0]}</span>
                                     <span className="highlighted">{categoryItem.highlighted}</span>
