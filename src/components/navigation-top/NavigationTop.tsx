@@ -30,7 +30,7 @@ export const NavigationTop: React.FC<INavigationTop> = ({ ...props }) => {
           </a>
         </Link>
         <SNavigationTopSearch>
-          <HeaderSearch />
+          <HeaderSearch NavigationTop={NavigationTop}/>
         </SNavigationTopSearch>
       </SNavigationTopFirstLine>
       <SNavigationTopTabsLine>

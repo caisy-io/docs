@@ -5,13 +5,15 @@ interface ISDropdownOption {
 }
 
 export const SDropdownOption = styled.li<any>`
+  display: block;
+  margin-bottom: 20px;
   color: var(--neutral-800);
-  height: 30px;
-  line-height: 30px;
+  max-height: 200px;
+  line-height: 24px;
   align-items: center;
-  padding: 10px 16px;
-  font-size: 14px;
-  transition: 0.2s;
+  padding: 0 16px;
+  font-size: 12px;
+
   &:not(:hover),
   &:not(.current-selection) {
     user-select: none;
@@ -21,21 +23,16 @@ export const SDropdownOption = styled.li<any>`
   }
 
   overflow: hidden;
-  white-space: nowrap;
+  white-space: pre;
   text-overflow: ellipsis;
   display: block;
 
-  &.current-selection,
+  /*&.current-selection,
   &:hover {
-    color: var(--primary-400);
+    //color: var(--primary-400);
     background-color: var(--primary-100);
-  }
-
-  .highlighted {
-    background-color: var(--primary-100);
-    border-radius: 5%;
-    padding: 2px 0;
-  }
+    cursor: pointer;
+  }*/
 
   ${(props) => props.selected && "color: var(--primary-400); background-color: var(--primary-100);"}
 `;

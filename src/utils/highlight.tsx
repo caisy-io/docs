@@ -1,9 +1,16 @@
 // src: https://gist.github.com/evenfrost/1ba123656ded32fb7a0cd4651efd4db0
 
 const highlight = (fuseSearchResult: any, highlightClassName: string = 'highlighted') => {
-  const set = (obj: object, path: string, value: any, refIndex: number) => {
+  const set = (obj: object, path: string, value: any) => {
     const pathValue = path.split('.');
-    obj[pathValue[0]][refIndex]['highlighted'] = value;
+    let i;
+
+    for (i = 0; i < pathValue.length - 1; i++) {
+      obj = obj[pathValue[i]];
+    }
+
+    console.log(pathValue, pathValue[i]);
+    obj[pathValue[i]] = value;
 };
 
   const generateHighlightedText = (inputText: string, regions: number[] = []) => {
@@ -28,7 +35,8 @@ const highlight = (fuseSearchResult: any, highlightClassName: string = 'highligh
     .map(({ item, matches }: any) => {
       const highlightedItem = { ...item };
       matches.forEach((match: any) => {
-        set(highlightedItem, match.key, generateHighlightedText(match.value, match.indices), match.refIndex);
+        console.log('matches', matches)
+        set(highlightedItem, match.key, generateHighlightedText(match.value, match.indices));
       });
 
       return highlightedItem;
