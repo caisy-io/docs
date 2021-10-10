@@ -4,7 +4,7 @@ import { SHeaderSearch } from './styles/SHeaderSearch';
 import Fuse from 'fuse.js'
 import { highlight } from 'src/utils/highlight';
 import { HeaderDropdown } from './HeaderDropdown';
-import { IGenNavigationTop } from 'src/constants/gen_types';
+import getCategoriesData from 'src/utils/getCategoriesData';
 
 interface IHeaderSearch {
   _?: null;
@@ -15,74 +15,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
 
-  const getCategoriesData = () : Array<IDropdownCategory>  => {
-    const parseBodyText = (body: Array<object>) : string => {
-      const paragraphPrefix = '\n';
-      const listItemPrefix = '\n• ';
-
-      const parseBodyTextRecursive = (root: object, prefixes: Array<string> = [], suffixes: Array<string> = []) => {
-        const newPrefixes = [...prefixes];
-        const newSuffixes = [...suffixes];
-
-        const isTextLeaf = 'type' in root && root['type'] == 'text';
-        const isParagraph = 'type' in root && root['type'] == 'paragraph';
-        const isListItem = 'type' in root && root['type'] == 'listItem';
-        const isCodeBlock = 'type' in root && root['type'] == 'codeBlock'; 
-
-        const hasTitleAndText = 'title' in root && 'text' in root;
-        const hasContent = 'content' in root;
-
-        if(isListItem) {
-          newPrefixes.push(listItemPrefix);
-        } else if(isParagraph && !newPrefixes.includes(listItemPrefix)) {
-          newPrefixes.push(paragraphPrefix);
-        } else if(isCodeBlock) {
-          newPrefixes.push(paragraphPrefix);
-          newSuffixes.push(paragraphPrefix);
-        }
-
-        if(isTextLeaf) {
-          return newPrefixes.concat([root['text']]).concat(newSuffixes);
-        } else if (hasTitleAndText) {
-          // const title = root['title']; // Use this?
-          return ['\n', ...parseBodyTextRecursive(root['text'], newPrefixes, newSuffixes)];
-        } else if(hasContent) {
-          return (root['content'] || []).flatMap(item => parseBodyTextRecursive(item, newPrefixes, newSuffixes));
-        } else {
-          return [];
-        }
-      }
-      return body.flatMap(item => parseBodyTextRecursive(item)).join('').trim();
-    };
-
-    const getCategoriesDataRecursive = (root: object, path: string = '', titles: string = '') : Array<IDropdownCategory> => {
-      if(!root) {
-        return [];
-      }
-      
-      const isPageLeaf = 'body' in root;
-
-      if(isPageLeaf) {
-        const headline = root['headline'] || '';
-        const newPath = path + '/' + (root['slug'] || '');
-        const title = titles + ' / ' + headline;
-        const rawBody = root['body'];
-        const bodyText = parseBodyText(rawBody);
-
-        return [{ path: newPath, title, headline, rawBody, bodyText}];
-      } else {
-        const newPath = path + (root['slug'] ? ('/' + root['slug']) : '');
-        const newTitles = titles + (root['title'] ? (' / ' + root['title']) : '');
-
-        return (root['items'] || [])
-          .flatMap(item => getCategoriesDataRecursive(item, newPath, newTitles));
-      }
-    }
-
-    return getCategoriesDataRecursive(props.NavigationTop);
-  }
-
-  const categoriesData: Array<IDropdownCategory> = getCategoriesData();
+  const categoriesData: Array<IDropdownCategory> = getCategoriesData(props.NavigationTop);
 
   const [searchResults, setSearchResults] = React.useState<IDropdownCategory[]>(categoriesData);
   
