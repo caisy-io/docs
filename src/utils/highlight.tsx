@@ -9,9 +9,8 @@ const highlight = (fuseSearchResult: any, highlightClassName: string = 'highligh
       obj = obj[pathValue[i]];
     }
 
-    console.log(pathValue, pathValue[i]);
     obj[pathValue[i]] = value;
-};
+  };
 
   const generateHighlightedText = (inputText: string, regions: number[] = []) => {
     let content = [];
@@ -35,7 +34,6 @@ const highlight = (fuseSearchResult: any, highlightClassName: string = 'highligh
     .map(({ item, matches }: any) => {
       const highlightedItem = { ...item };
       matches.forEach((match: any) => {
-        console.log('matches', matches)
         set(highlightedItem, match.key, generateHighlightedText(match.value, match.indices));
       });
 

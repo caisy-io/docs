@@ -1,6 +1,9 @@
 import { IDropdownCategory } from '@caisy/league/dist/components/dropdown/types';
+import { FragmentsOnCompositeTypesRule } from 'graphql';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState, useEffect, Fragment } from 'react';
+import { createSnippets } from 'src/utils/snippets';
 import { SDropdown } from './styles/SDropdown';
 import { SDropdownOption } from './styles/SDropdownOption';
 import { SDropdownOptionHeader } from './styles/SDropdownOptionHeader';
@@ -10,57 +13,67 @@ interface IDropdownProps {
   active: boolean;
   categories: IDropdownCategory[];
   onSelect?: (key: IDropdownCategory) => void;
+  onClose?: () => void;
+  currentOptionIndex?: number;
+  setCurrentOptionIndex?: (index: number) => void;
 }
 
-export const HeaderDropdown = ({ categories, active, onSelect }: IDropdownProps) => {
-    const [currentOptionIndex, setCurrentOptionIndex] = useState<number>(-1);
-    // const flatCategories = categories.flatMap((c) => c.items.filter((i) => i.visible));
+export const HeaderDropdown = ({ categories, active, onSelect, onClose, currentOptionIndex = -1, setCurrentOptionIndex }: IDropdownProps) => {
+    const router = useRouter();
+    
+    // TODO Automatically scroll down list when using arrow keys
 
-    // useEffect(() => {
-    //   const handler = (e) => {
-    //     if (!active) {
-    //       return;
-    //     }
+    useEffect(() => {
+      const handler = (e) => {
+        if (!active) {
+          return;
+        }
 
-    //     let currIndex = currentOptionIndex;
+        let currIndex = currentOptionIndex;
 
-    //     if (e.key === 'Enter') {
-    //       if (currIndex < 0) {
-    //         currIndex = 0;
-    //       }
-    //       onSelect(flatCategories[currIndex].key);
-    //       return;
-    //     }
+        if(e.key === 'Escape') {
+          onClose?.();
+          return;
+        }
 
-    //     if (currIndex > flatCategories.length - 1) {
-    //       currIndex = flatCategories.length - 1;
-    //     }
+        if (e.key === 'Enter') {
+          if (currIndex < 0) {
+            currIndex = 0;
+          }
+          onSelect?.(categories[currIndex]);
+          router.push(categories[currIndex].path);
+          return;
+        }
 
-    //     if (e.key === 'ArrowUp') {
-    //       if (currIndex <= 0) {
-    //         currIndex = flatCategories.length - 1;
-    //       } else {
-    //         currIndex--;
-    //       }
-    //     }
+        if (currIndex > categories.length - 1) {
+          currIndex = categories.length - 1;
+        }
 
-    //     if (e.key === 'ArrowDown') {
-    //       if (currIndex >= flatCategories.length - 1) {
-    //         currIndex = 0;
-    //       } else {
-    //         currIndex++;
-    //       }
-    //     }
+        if (e.key === 'ArrowUp') {
+          if (currIndex <= 0) {
+            currIndex = categories.length - 1;
+          } else {
+            currIndex--;
+          }
+        }
 
-    //     setCurrentOptionIndex(currIndex);
-    //   };
+        if (e.key === 'ArrowDown') {
+          if (currIndex >= categories.length - 1) {
+            currIndex = 0;
+          } else {
+            currIndex++;
+          }
+        }
 
-    //   if (active) {
-    //     document.addEventListener('keydown', handler);
-    //   }
+        setCurrentOptionIndex?.(currIndex);
+      };
 
-    //   return () => document.removeEventListener('keydown', handler);
-    // });
+      if (active) {
+        document.addEventListener('keydown', handler);
+      }
+
+      return () => document.removeEventListener('keydown', handler);
+    });
 
     const renderHighlightedText = (text) => {
       return text.map((part, index) => {
@@ -77,7 +90,7 @@ export const HeaderDropdown = ({ categories, active, onSelect }: IDropdownProps)
       const isHighlighted = title instanceof Array;
 
       if(isHighlighted) {
-        return renderHighlightedText(title);
+        return renderHighlightedText(createSnippets(title));
       } else {
         return <div>
           {title.substr(0, title.lastIndexOf(' / '))} / 
@@ -90,7 +103,7 @@ export const HeaderDropdown = ({ categories, active, onSelect }: IDropdownProps)
       const isHighlighted = bodyText instanceof Array;
 
       if(isHighlighted) {
-        return renderHighlightedText(bodyText);
+        return renderHighlightedText(createSnippets(bodyText));
       } else {
         return <div>{bodyText}</div>;
       }
@@ -103,11 +116,9 @@ export const HeaderDropdown = ({ categories, active, onSelect }: IDropdownProps)
         {active && (
             <SDropdown active={active} className='dropdown'>
               {categories.map((category, index) => {
-                console.log(category.path);
-
                 return (
                   <Link key={'C' + index} href={category.path}>
-                    <SDropdownOptionItem>
+                    <SDropdownOptionItem className={currentOptionIndex == index ? 'selected' : ''}>
                       <SDropdownOptionHeader className='title'>
                         {renderTitle(category.title)}
                       </SDropdownOptionHeader>

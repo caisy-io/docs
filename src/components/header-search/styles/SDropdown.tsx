@@ -20,7 +20,7 @@ export const SDropdown = styled.ul<any>`
 
   .title, .dropdown-option {
     .highlighted {
-      background-color: var(--primary-100);
+      background-color: var(--primary-200);
       border-radius: 5%;
       padding: 2px 0;
     }

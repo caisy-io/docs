@@ -1,6 +1,8 @@
 const parseBodyText = (body: Array<object>) : string => {
     const paragraphPrefix = '\n';
-    const listItemPrefix = '\n• ';
+    const listItemPrefix = ' • ';
+    const codeBlockPrefix = '\n\n';
+    const codeBlockSuffix = '\n\n';
 
     const parseBodyTextRecursive = (root: object, prefixes: Array<string> = [], suffixes: Array<string> = []) => {
         const newPrefixes = [...prefixes];
@@ -19,8 +21,8 @@ const parseBodyText = (body: Array<object>) : string => {
         } else if(isParagraph && !newPrefixes.includes(listItemPrefix)) {
             newPrefixes.push(paragraphPrefix);
         } else if(isCodeBlock) {
-            newPrefixes.push(paragraphPrefix);
-            newSuffixes.push(paragraphPrefix);
+            newPrefixes.push(codeBlockPrefix);
+            newSuffixes.push(codeBlockSuffix);
         }
 
         if(isTextLeaf) {

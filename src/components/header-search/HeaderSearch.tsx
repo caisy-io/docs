@@ -1,5 +1,5 @@
 import { Input, IconSearch, IDropdownCategory, Popover } from '@caisy/league';
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { SHeaderSearch } from './styles/SHeaderSearch';
 import Fuse from 'fuse.js'
 import { highlight } from 'src/utils/highlight';
@@ -12,24 +12,27 @@ interface IHeaderSearch {
 }
 
 export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
-  const [inputValue, setInputValue] = React.useState<string>('');
-  const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
-
   const categoriesData: Array<IDropdownCategory> = getCategoriesData(props.NavigationTop);
 
-  const [searchResults, setSearchResults] = React.useState<IDropdownCategory[]>(categoriesData);
+  const [searchResults, setSearchResults] = useState<IDropdownCategory[]>(categoriesData);
+  const [inputValue, setInputValue] = useState<string>('');
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const [currentOptionIndex, setCurrentOptionIndex] = useState<number>(-1);
   
   const popoverRef: React.MutableRefObject<any> = useRef();
   const containerRef: React.MutableRefObject<any> = useRef();
 
   const fuse = new Fuse(categoriesData, {
-    includeScore: true,
     includeMatches: true,
+    includeScore: true,
+    ignoreLocation: true,
+    minMatchCharLength: 3,
     keys: ['title', 'bodyText']
   });
 
   const onClickOutside = (e) => {
     if (dropdownOpen && e.target.type !== 'text'){
+      setCurrentOptionIndex(-1);
       setDropdownOpen(false);
       setSearchResults(categoriesData);
       setInputValue('');
@@ -37,8 +40,7 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   };
   
   const onSelect = (selectedCategory) => {
-    console.log('selectedCategory', selectedCategory);
-
+    setCurrentOptionIndex(-1);
     setDropdownOpen(false);
     setSearchResults(categoriesData);
     setInputValue(selectedCategory.headline);
@@ -48,11 +50,11 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     setInputValue(e.target.value);
     setDropdownOpen(true);
     if(e.target.value.length > 0){
-      console.log('search text',  e.target.value);
+      // console.log('search text',  e.target.value);
       const fuseSearchResult = fuse.search(e.target.value);
-      console.log('fuseSearchResult', fuseSearchResult);
+      // console.log('fuseSearchResult', fuseSearchResult);
       const highlighted = highlight(fuseSearchResult);
-      console.log('highlighted', highlighted);
+      // console.log('highlighted', highlighted);
       setSearchResults(highlighted);
     } else {
       setSearchResults(categoriesData);
@@ -60,12 +62,14 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   };
 
   const onClose = () => {
+    setCurrentOptionIndex(-1);
     setDropdownOpen(false);
     setSearchResults(categoriesData);
     setInputValue('');
   };
 
   const onClick = () => {
+    setCurrentOptionIndex(-1);
     fuse.setCollection(categoriesData);
     setSearchResults(inputValue.length > 0 ? highlight(fuse.search(inputValue)) : categoriesData);
     if(!dropdownOpen) setDropdownOpen(!dropdownOpen);
@@ -94,6 +98,9 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
               categories={searchResults}
               active={dropdownOpen} 
               onSelect={onSelect}
+              onClose={onClose}
+              currentOptionIndex={currentOptionIndex}
+              setCurrentOptionIndex={setCurrentOptionIndex}
             />
           </Popover>
         </div>

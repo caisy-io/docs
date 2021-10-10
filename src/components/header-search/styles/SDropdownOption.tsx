@@ -23,16 +23,9 @@ export const SDropdownOption = styled.li<any>`
   }
 
   overflow: hidden;
-  white-space: pre;
-  text-overflow: ellipsis;
+  overflow-wrap: break-word;
   display: block;
-
-  /*&.current-selection,
-  &:hover {
-    //color: var(--primary-400);
-    background-color: var(--primary-100);
-    cursor: pointer;
-  }*/
+  white-space: pre-line;
 
   ${(props) => props.selected && "color: var(--primary-400); background-color: var(--primary-100);"}
 `;
