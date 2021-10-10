@@ -44,7 +44,7 @@ export const SDropdown = styled.ul<any>`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    display: flex;
+    display: block;
   }
 
   .search-option-disable {
