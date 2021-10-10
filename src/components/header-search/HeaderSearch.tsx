@@ -101,10 +101,8 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   };
 
   const onClick = () => {
-    if (!dropdownOpen && inputValue.length > 0) {
-      setCategories(highlight(fuse.search(inputValue)));
-    }
-    setDropdownOpen(!dropdownOpen);
+    if(!dropdownOpen) setDropdownOpen(!dropdownOpen);
+    if(inputValue.length > 0) setCategories(highlight(fuse.search(inputValue)));
   };
 
   return (
