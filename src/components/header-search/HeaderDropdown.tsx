@@ -24,8 +24,11 @@ export interface IDropdownCategory {
   highlighted?: any;
 }
 
+const MAX_DOPDOWN_OPTIONS = 5;
+
 export const HeaderDropdown = ({ categories, active, onSelect, onClose, currentOptionIndex = -1, setCurrentOptionIndex }: IDropdownProps) => {
     const router = useRouter();
+    const reference = useRef(null);
 
     useEffect(() => {
       const handler = (e) => {
@@ -113,15 +116,11 @@ export const HeaderDropdown = ({ categories, active, onSelect, onClose, currentO
       }
     }
 
-    const reference = useRef(null);
-
     return (
       <div ref={reference}>
         {active && (
             <SDropdown active={active} className='dropdown'>
-              {categories.map((category, index) => {
-                return (
-                  <Link key={'C' + index} href={category.path}>
+              {categories.map((category, index) => index < MAX_DOPDOWN_OPTIONS && (<Link key={'C' + index} href={category.path}>
                     <SDropdownOptionItem className={currentOptionIndex == index ? 'selected' : ''}>
                       <SDropdownOptionHeader className='title'>
                         {renderTitle(category.title)}
@@ -133,9 +132,8 @@ export const HeaderDropdown = ({ categories, active, onSelect, onClose, currentO
                         {renderBodyText(category.bodyText)}
                       </SDropdownOption>
                     </SDropdownOptionItem>
-                  </Link>
-                );
-              })}
+                  </Link>)
+              )}
             </SDropdown>
         )}
       </div>

@@ -1,5 +1,5 @@
-const maxPrefixLength = 30;
-const maxSuffixLength = 30;
+const MAX_PREFIX_LENGTH = 30;
+const MAX_SUFFIX_LENGTH = 30;
 
 const createSnippets = (highlightedText: Array<object>) => {
     const highlightedPartsIndices = new Set();
@@ -32,15 +32,15 @@ const createSnippets = (highlightedText: Array<object>) => {
         if(isFullSnippet) {
             snippets.push(part);
         } else if(isPrefixSnippet) {
-            const prefixSnippetText = partText.length <= maxPrefixLength 
+            const prefixSnippetText = partText.length <= MAX_PREFIX_LENGTH 
                 ? partText 
-                : ('...' + partText.substr(partText.length - maxPrefixLength, partText.length));
+                : ('...' + partText.substr(partText.length - MAX_PREFIX_LENGTH, partText.length));
 
             snippets.push({...part, text: prefixSnippetText});
         } else if(isSuffixSnippet) {
-            const suffixSnippetText = partText.length <= maxSuffixLength 
+            const suffixSnippetText = partText.length <= MAX_SUFFIX_LENGTH 
                 ? partText 
-                : (partText.substr(0, maxSuffixLength) + '...');
+                : (partText.substr(0, MAX_SUFFIX_LENGTH) + '...');
 
             snippets.push({...part, text: suffixSnippetText});
         }
