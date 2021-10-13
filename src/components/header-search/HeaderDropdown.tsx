@@ -1,8 +1,6 @@
-import { IDropdownCategory } from '@caisy/league/dist/components/dropdown/types';
-import { FragmentsOnCompositeTypesRule } from 'graphql';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState, useEffect, Fragment } from 'react';
+import { useEffect, useRef } from 'react';
 import { createSnippets } from 'src/utils/snippets';
 import { SDropdown } from './styles/SDropdown';
 import { SDropdownOption } from './styles/SDropdownOption';
@@ -17,11 +15,17 @@ interface IDropdownProps {
   currentOptionIndex?: number;
   setCurrentOptionIndex?: (index: number) => void;
 }
+export interface IDropdownCategory {
+  title: string;
+  headline: string;
+  path: string;
+  rawBody: object;
+  bodyText: string;
+  highlighted?: any;
+}
 
 export const HeaderDropdown = ({ categories, active, onSelect, onClose, currentOptionIndex = -1, setCurrentOptionIndex }: IDropdownProps) => {
     const router = useRouter();
-    
-    // TODO Automatically scroll down list when using arrow keys
 
     useEffect(() => {
       const handler = (e) => {
@@ -109,7 +113,7 @@ export const HeaderDropdown = ({ categories, active, onSelect, onClose, currentO
       }
     }
 
-    const reference = React.useRef(null);
+    const reference = useRef(null);
 
     return (
       <div ref={reference}>

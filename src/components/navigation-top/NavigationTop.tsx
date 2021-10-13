@@ -1,5 +1,5 @@
-import { Input, Dropdown, IconSearch, TabPanel, Tabs } from "@caisy/league";
-import React from "react";
+import { TabPanel, Tabs } from "@caisy/league";
+import { useState, FC } from "react";
 import { HeaderHeadline } from "../header-headline/HeaderHeadline";
 import { HeaderLogo } from "../header-logo/HeaderLogo";
 import { SNavigationTop } from "./styles/SNavigationTop";
@@ -10,13 +10,19 @@ import Link from "next/link";
 import { SNavigationTopSearch } from "./styles/SNavigationTopSearch";
 import { HeaderSearch } from "../header-search/HeaderSearch";
 import { useContent } from "../../hooks/content";
+import { useRouter } from "next/router";
 interface INavigationTop {
   _?: null;
 }
 
-export const NavigationTop: React.FC<INavigationTop> = ({ ...props }) => {
+export const NavigationTop: FC<INavigationTop> = ({ ...props }) => {
   const { NavigationTop } = useContent();
-  console.log(`useContent NavigationTop props: `, NavigationTop);
+  const router = useRouter();
+  const [currentTab, setCurrentTab] = useState(
+    NavigationTop?.items?.findIndex(item => 
+      item['slug'] == router?.query?.slug?.[0]) 
+      || 0);
+  //console.log(`useContent NavigationTop props: `, NavigationTop);
 
   return (
     <SNavigationTop>
@@ -30,11 +36,18 @@ export const NavigationTop: React.FC<INavigationTop> = ({ ...props }) => {
           </a>
         </Link>
         <SNavigationTopSearch>
-          <HeaderSearch NavigationTop={NavigationTop}/>
+          <HeaderSearch NavigationTop={NavigationTop} setCurrentTab={setCurrentTab}/>
         </SNavigationTopSearch>
       </SNavigationTopFirstLine>
       <SNavigationTopTabsLine>
-        <Tabs initialValue={0}>
+        <Tabs 
+          initialValue={currentTab}
+          onChange={(newValue) => {
+            if (newValue != currentTab) {
+              setCurrentTab(newValue);
+            }
+          }}
+        >
           {NavigationTop?.items?.map((item: any) => {
             if (!item?.slug) return null;
             return (

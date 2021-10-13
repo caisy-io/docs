@@ -1,17 +1,18 @@
-import { Input, IconSearch, IDropdownCategory, Popover } from '@caisy/league';
-import React, { useState, useRef } from 'react';
+import { Input, IconSearch, Popover } from '@caisy/league';
+import { useState, useRef, FC, MutableRefObject } from 'react';
 import { SHeaderSearch } from './styles/SHeaderSearch';
 import Fuse from 'fuse.js'
 import { highlight } from 'src/utils/highlight';
-import { HeaderDropdown } from './HeaderDropdown';
+import { HeaderDropdown, IDropdownCategory } from './HeaderDropdown';
 import getCategoriesData from 'src/utils/getCategoriesData';
 
 interface IHeaderSearch {
   _?: null;
   NavigationTop?: any;
+  setCurrentTab?: (number: number) => void;
 }
 
-export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
+export const HeaderSearch: FC<IHeaderSearch> = ({ ...props }) => {
   const categoriesData: Array<IDropdownCategory> = getCategoriesData(props.NavigationTop);
 
   const [searchResults, setSearchResults] = useState<IDropdownCategory[]>(categoriesData);
@@ -19,8 +20,8 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [currentOptionIndex, setCurrentOptionIndex] = useState<number>(-1);
   
-  const popoverRef: React.MutableRefObject<any> = useRef();
-  const containerRef: React.MutableRefObject<any> = useRef();
+  const popoverRef: MutableRefObject<any> = useRef();
+  const containerRef: MutableRefObject<any> = useRef();
 
   const fuse = new Fuse(categoriesData, {
     includeMatches: true,
@@ -44,6 +45,10 @@ export const HeaderSearch: React.FC<IHeaderSearch> = ({ ...props }) => {
     setDropdownOpen(false);
     setSearchResults(categoriesData);
     setInputValue(selectedCategory.headline);
+    props.setCurrentTab(
+      props.NavigationTop?.items?.findIndex(item => 
+        item['slug'] == selectedCategory.path.split('/')[1]) 
+        || 0);
   };
 
   const onChange = (e) => {
