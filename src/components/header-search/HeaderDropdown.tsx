@@ -110,9 +110,9 @@ export const HeaderDropdown = ({
   const renderHighlightedText = (text) => {
     return text.map((part, index) => {
       return (
-        part.highlighted ? 
-          <span key={index} className='highlighted'>{part.text}</span>
-        : 
+        // part.highlighted ? 
+        //   <span key={index} className='highlighted'>{part.text}</span>
+        // : 
           <span key={index}>{part.text}</span>
       );
     });
