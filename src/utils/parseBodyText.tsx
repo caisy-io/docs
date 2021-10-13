@@ -1,9 +1,9 @@
-const parseBodyText = (body: Array<object>) : string => {
-    const paragraphPrefix = '\n';
-    const listItemPrefix = ' • ';
-    const codeBlockPrefix = '\n\n';
-    const codeBlockSuffix = '\n\n';
+const paragraphPrefix = '';
+const listItemPrefix = ' - ';
+const codeBlockPrefix = '';
+const codeBlockSuffix = '';
 
+const parseBodyText = (body: Array<object>) : string => {
     const parseBodyTextRecursive = (root: object, prefixes: Array<string> = [], suffixes: Array<string> = []) => {
         const newPrefixes = [...prefixes];
         const newSuffixes = [...suffixes];

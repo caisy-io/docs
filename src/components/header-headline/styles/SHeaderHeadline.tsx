@@ -2,7 +2,8 @@ import styled, { css } from "styled-components";
 import { MIN_SILVER, MIN_GOLD, MIN_PLATINUM, MIN_DIAMOND } from "src/constants/styles/mediaquerys";
 
 const Bronze = css`
-  font-size: 34px;
+  font-size: 41px;
+  margin-bottom: -2px;
   font-weight: 500;
   text-transform: uppercase;
 `;

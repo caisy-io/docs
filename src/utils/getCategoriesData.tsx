@@ -1,4 +1,4 @@
-import { IDropdownCategory } from '@caisy/league/dist/components/dropdown/types';
+import { IDropdownCategory } from '../components/header-search/HeaderDropdown';
 import parseBodyText from './parseBodyText';
 
 const getCategoriesData = (navigationTop) : Array<IDropdownCategory>  => { 

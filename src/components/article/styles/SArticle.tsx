@@ -9,7 +9,7 @@ const Bronze = css<ISArticle>`
   gap: 32px;
   overflow-x: hidden;
   overflow-y: auto;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 238px);
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -22,7 +22,7 @@ const Bronze = css<ISArticle>`
 const Silver = css<ISArticle>``;
 
 const Gold = css<ISArticle>`
-  margin: 0 20%;
+  padding: 0 calc(100% / 2 - 500px);
 `;
 
 const Platinum = css<ISArticle>``;

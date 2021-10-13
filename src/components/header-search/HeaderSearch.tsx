@@ -1,107 +1,119 @@
-import { Input, IconSearch, Popover } from '@caisy/league';
-import { useState, useRef, FC, MutableRefObject } from 'react';
-import { SHeaderSearch } from './styles/SHeaderSearch';
-import Fuse from 'fuse.js'
-import { highlight } from 'src/utils/highlight';
-import { HeaderDropdown, IDropdownCategory } from './HeaderDropdown';
-import getCategoriesData from 'src/utils/getCategoriesData';
+import { Input, IconSearch, Popover } from "@caisy/league";
+import { useState, useRef, FC, MutableRefObject, useEffect, useMemo } from "react";
+import { SHeaderSearch } from "./styles/SHeaderSearch";
+import Fuse from "fuse.js";
+import { highlight } from "src/utils/highlight";
+import { HeaderDropdown, IDropdownCategory } from "./HeaderDropdown";
+import getCategoriesData from "src/utils/getCategoriesData";
 
 interface IHeaderSearch {
-  _?: null;
   NavigationTop?: any;
   setCurrentTab?: (number: number) => void;
 }
 
 export const HeaderSearch: FC<IHeaderSearch> = ({ ...props }) => {
-  const categoriesData: Array<IDropdownCategory> = getCategoriesData(props.NavigationTop);
+  const fuse = useRef<any>();
+  const categoriesData: Array<IDropdownCategory> = useMemo(
+    () => getCategoriesData(props.NavigationTop),
+    [props.NavigationTop],
+  );
 
-  const [searchResults, setSearchResults] = useState<IDropdownCategory[]>(categoriesData);
-  const [inputValue, setInputValue] = useState<string>('');
+  useEffect(() => {
+    fuse.current = new Fuse(categoriesData, {
+      includeMatches: true,
+      includeScore: true,
+      ignoreLocation: true,
+      minMatchCharLength: 3,
+      threshold: 0.5,
+      shouldSort: true,
+      keys: ["title", "bodyText"],
+    });
+  }, [categoriesData]);
+
+  useEffect(() => {
+    fuse.current?.setCollection(categoriesData);
+  }, [ fuse.current, categoriesData ]);
+
+  const [searchResults, setSearchResults] = useState<IDropdownCategory[]>([]);
+  const [inputValue, setInputValue] = useState<string>("");
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [currentOptionIndex, setCurrentOptionIndex] = useState<number>(-1);
-  
+
   const popoverRef: MutableRefObject<any> = useRef();
   const containerRef: MutableRefObject<any> = useRef();
 
-  const fuse = new Fuse(categoriesData, {
-    includeMatches: true,
-    includeScore: true,
-    ignoreLocation: true,
-    minMatchCharLength: 3,
-    keys: ['title', 'bodyText']
-  });
-
   const onClickOutside = (e) => {
-    if (dropdownOpen && e.target.type !== 'text'){
+    if (dropdownOpen && e.target.type !== "text") {
       setCurrentOptionIndex(-1);
       setDropdownOpen(false);
-      setSearchResults(categoriesData);
-      setInputValue('');
+      setSearchResults([]);
+      setInputValue("");
     }
   };
-  
+
   const onSelect = (selectedCategory) => {
     setCurrentOptionIndex(-1);
     setDropdownOpen(false);
-    setSearchResults(categoriesData);
+    setSearchResults([]);
     setInputValue(selectedCategory.headline);
     props.setCurrentTab(
-      props.NavigationTop?.items?.findIndex(item => 
-        item['slug'] == selectedCategory.path.split('/')[1]) 
-        || 0);
+      props.NavigationTop?.items?.findIndex((item) => item["slug"] == selectedCategory.path.split("/")[1]) || 0,
+    );
   };
 
   const onChange = (e) => {
     setInputValue(e.target.value);
     setDropdownOpen(true);
-    if(e.target.value.length > 0){
+    if (e.target.value.length > 0 && fuse.current) {
       // console.log('search text',  e.target.value);
-      const fuseSearchResult = fuse.search(e.target.value);
-      // console.log('fuseSearchResult', fuseSearchResult);
-      const highlighted = highlight(fuseSearchResult);
-      // console.log('highlighted', highlighted);
+      const fuseSearchResult = fuse.current.search(e.target.value);
+      console.log('fuseSearchResult', fuseSearchResult);
+      const highlighted = highlight(fuseSearchResult, inputValue);
+      console.log('highlighted', highlighted);
       setSearchResults(highlighted);
     } else {
-      setSearchResults(categoriesData);
+      setSearchResults([]);
     }
   };
 
   const onClose = () => {
     setCurrentOptionIndex(-1);
     setDropdownOpen(false);
-    setSearchResults(categoriesData);
-    setInputValue('');
+    setSearchResults([]);
+    setInputValue("");
   };
+
+
 
   const onClick = () => {
     setCurrentOptionIndex(-1);
-    fuse.setCollection(categoriesData);
-    setSearchResults(inputValue.length > 0 ? highlight(fuse.search(inputValue)) : categoriesData);
-    if(!dropdownOpen) setDropdownOpen(!dropdownOpen);
+    setSearchResults(inputValue.length > 0 ? highlight(fuse.current?.search(inputValue), inputValue) : []);
+    if (!dropdownOpen) setDropdownOpen(!dropdownOpen);
   };
-
+  console.log(` searchResults`, searchResults);
   return (
     <SHeaderSearch ref={containerRef}>
       <Input
         onClick={onClick}
         onClose={onClose}
-        hasCloseButton 
+        hasCloseButton
         icon={IconSearch}
         value={inputValue}
         onChange={onChange}
       />
       {containerRef.current && (
         <div ref={popoverRef}>
-          <Popover 
-            disableTriangle 
+          <Popover
+            disableTriangle
             reference={popoverRef}
             container={popoverRef}
-            placement='bottom'
-            onClickOutside={onClickOutside}
+            placement="left"
+            onClickOutside={onClickOutside as any}
           >
-            <HeaderDropdown 
+            <HeaderDropdown
+              searchInputValue={inputValue}
               categories={searchResults}
-              active={dropdownOpen} 
+              active={dropdownOpen && searchResults.length != 0}
               onSelect={onSelect}
               onClose={onClose}
               currentOptionIndex={currentOptionIndex}
