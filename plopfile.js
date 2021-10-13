@@ -1,44 +1,44 @@
 module.exports = function (plop) {
-  /** @type {import('plop').NodePlopAPI} */
   plop.addHelper("upperCase", function (text) {
     return text.toUpperCase();
   });
-  const pascalCase = (s) =>
-      s.replace(/\w+/g, function (w) {
-        return w[0].toUpperCase() + w.slice(1);
-      });
-  const files = {
-    svgComponent: "plop-templates/svg.tsx.hbs",
-    mainComponent: "plop-templates/main-component.tsx.hbs",
-    styledComponent: "plop-templates/styled-component.tsx.hbs",
+  var pascalCase = (s) =>
+    s.replace(/\w+/g, function (w) {
+      return w[0].toUpperCase() + w.slice(1);
+    });
+  var files = {
+    mainComponent: "plop-templates/main-component.js",
+    styledComponent: "plop-templates/styled-component.js",
+    cssSnippet: "plop-templates/css.js",
   };
-  
-  const createFunctionComponent = _ => ({
+
+  var createFunctionComponent = {
     type: "add",
-    path: `src/components/{{kebabCase name}}/{{pascalCase name}}.tsx`,
+    path: "src/components/{{kebabCase name}}/{{pascalCase name}}.tsx",
     templateFile: files.mainComponent,
-  });
-  
-    const createSvgComponent = {
-      type: "add",
-      path: `src/svgs/{{pascalCase name}}.tsx`,
-      templateFile: files.svgComponent,
-    };
-  
-  const createStyledComp = _ => ({
+  };
+
+  var createStyledComp = {
     type: "add",
-    path: `src/components/{{kebabCase name}}/styles/S{{pascalCase name}}{{pascalCase suffix}}.tsx`,
+    path:
+      "src/components/{{kebabCase name}}/styles/S{{pascalCase name}}{{pascalCase suffix}}.tsx",
     templateFile: files.styledComponent,
-  });
-  
-  const createStyle = _ => ({
+  };
+
+  var createStyle = {
     type: "add",
-    path: `src/components/{{kebabCase name}}/styles/S{{pascalCase name}}.tsx`,
+    path: "src/components/{{kebabCase name}}/styles/S{{pascalCase name}}.tsx",
     templateFile: files.styledComponent,
-  });
-  
+  };
+
+  var createCssSnippet = {
+    type: "add",
+    path: "src/components/{{kebabCase name}}/styles/CSS{{pascalCase name}}{{pascalCase suffix}}.tsx",
+    templateFile: files.cssSnippet,
+  };
+
   plop.setActionType("Usage:", function (answers, config, plop) {
-    const {name, suffix} = answers;
+    const { name, suffix } = answers;
     if (name && suffix) {
       return `Usage: <S${pascalCase(name)}${pascalCase(suffix)} />`;
     }
@@ -47,13 +47,12 @@ module.exports = function (plop) {
     }
     return ``;
   });
-  
+
   /* Input Options */
-  const getComponentName = {
+  var getComponentName = {
     type: "input",
     name: "name",
     message: "What is the component name?",
-    
     validate: function (value) {
       if (/.+/.test(value)) {
         return true;
@@ -61,8 +60,8 @@ module.exports = function (plop) {
       return "name is required";
     },
   };
-  
-  const getStyleSuffix = {
+
+  var getStyleSuffix = {
     type: "input",
     name: "suffix",
     message: "What is the styled component suffix?",
@@ -73,50 +72,36 @@ module.exports = function (plop) {
       return "name is required";
     },
   };
-  
-  
+
   /* Generators */
   plop.setGenerator("fc", {
     description: "Function Component",
-    prompts: [
-      getComponentName,
-    ],
-    actions: () => [
-      createFunctionComponent(),
-      createStyle(),
+    prompts: [getComponentName],
+    actions: [
+      createFunctionComponent,
+      createStyle,
       {
         type: "Usage:",
       },
-    ]
-    ,
-  });
-  
-  plop.setGenerator("svg", {
-    description: "SVG Component",
-    prompts: [
-      getComponentName,
     ],
-    actions: (data) => [
-      createSvgComponent,
-      {
-        type: "Usage:",
-      },
-    ]
-    ,
   });
-  
+
   plop.setGenerator("s", {
     description: "Styled Component",
-    prompts: [
-      getComponentName,
-      getStyleSuffix,
-    ],
-    actions: (data) => [
-      createStyledComp(),
+    prompts: [getComponentName, getStyleSuffix],
+    actions: [
+      createStyledComp,
       {
         type: "Usage:",
       },
-    ]
-    ,
+    ],
+  });
+
+  plop.setGenerator("css", {
+    description: "Css Snippet",
+    prompts: [getComponentName, getStyleSuffix],
+    actions: [
+      createCssSnippet,
+    ],
   });
 };
