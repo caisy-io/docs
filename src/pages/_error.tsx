@@ -5,12 +5,7 @@ const Page = (props) => {
   return <div>Error</div>;
 };
 
-export async function getStaticProps() {
-  return {
-    props: {
-      ...(await getContent()),
-    },
-  };
-}
+export {getStaticProps} from "../utils/getStaticProps";
+
 
 export default Page;

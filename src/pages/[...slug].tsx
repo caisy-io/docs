@@ -5,7 +5,10 @@ import { Article } from "../components/article/Article";
 
 const Page = ({ NavigationTop, article, category, navigationItem }) => {
   const router = useRouter();
-  console.log(` props`, { NavigationTop }, router.query, { article }, { category }, { navigationItem });
+
+  if (typeof window !== "undefined") {
+    console.log(` props`, { NavigationTop }, router.query, { article }, { category }, { navigationItem });
+  }
 
   return <Article article={article} />;
 };
@@ -36,32 +39,6 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
-  console.log(` params`, params);
-  const content = await getContent();
-  return {
-    props: {
-      ...content,
-      navigationItem:
-        (content?.NavigationTop?.items.find(
-          (navigationItem: IGenNavigationItem) => navigationItem.slug === params?.slug?.[0],
-        ) as IGenNavigationItem) ?? null,
-      category:
-        ((
-          content?.NavigationTop?.items.find(
-            (navItem: IGenNavigationItem) => navItem.slug === params?.slug?.[0],
-          ) as IGenNavigationItem
-        )?.items.find((category: IGenCategory) => category.slug === params?.slug?.[1]) as IGenCategory) ?? null,
-      article:
-        ((
-          (
-            content?.NavigationTop?.items.find(
-              (navItem: IGenNavigationItem) => navItem.slug === params?.slug?.[0],
-            ) as IGenNavigationItem
-          )?.items.find((category: IGenCategory) => category.slug === params?.slug?.[1]) as IGenCategory
-        )?.items.find((article: IGenArticle) => article.slug === params?.slug?.[2]) as IGenArticle) ?? null,
-    },
-  };
-}
+export {getStaticProps} from "../utils/getStaticProps";
 
 export default Page;

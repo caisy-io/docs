@@ -12,17 +12,13 @@ import { HeaderSearch } from "../header-search/HeaderSearch";
 import { useContent } from "../../hooks/content";
 import { useRouter } from "next/router";
 import { SNavigationTopInnerContainer } from "./styles/SNavigationTopInnerContainer";
-interface INavigationTop {
-  _?: null;
-}
 
-export const NavigationTop: FC<INavigationTop> = ({ ...props }) => {
+export const NavigationTop: FC = ({ ...props }) => {
   const { NavigationTop } = useContent();
   const router = useRouter();
   const [currentTab, setCurrentTab] = useState(
-    NavigationTop?.items?.findIndex((item) => item["slug"] == router?.query?.slug?.[0]) || 0,
+    NavigationTop?.items?.findIndex((item) => item && item["slug"] == router?.query?.slug?.[0]) || 0,
   );
-  //console.log(`useContent NavigationTop props: `, NavigationTop);
 
   return (
     <SNavigationTop>

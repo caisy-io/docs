@@ -174,10 +174,10 @@
   resolved "https://registry.yarnpkg.com/@caisy/eslint-config-caisy/-/eslint-config-caisy-1.3.0.tgz#52f6ffcc0b5017f09a52cdc479336f60dfcd271d"
   integrity sha512-Nsh+ZF7SRXIGwLxzLXpvB7WCZX1lJdIUaHn7xYibJJVnkZ7y5AUNLxn8kmfdpvI9Qn20YyAEGTnkH+Ky+DeICw==
 
-"@caisy/league@^0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@caisy/league/-/league-0.1.10.tgz#575e017d810088959f32486986f949e20dcda43c"
-  integrity sha512-gUYLPQ+anjgo+LQsnzaIWn1GcXsy+YdiJ4a7oMCFGO23+kMOYlTqKmlyXSaCuBoRGjbeyUtWaa5C2qaopvcWag==
+"@caisy/league@^0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@caisy/league/-/league-0.1.12.tgz#e18de0af84587b65c77d00482b17c35ec867b93c"
+  integrity sha512-FWaIGQ5oF+1VGFXrfxp9DJH0EdWLgOnRbb8+bE8r9IqguYzM3SG7HoFmGHAY4tvf9zmTnI0q7ylVOwDUVlumKQ==
   dependencies:
     dayjs "1.10.5"
     fuzzysearch "^1.0.3"

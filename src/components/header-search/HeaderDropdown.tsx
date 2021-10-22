@@ -133,17 +133,17 @@ export const HeaderDropdown = ({
   const handleStripedPart = (text, partIndex) => {
     const part = text[partIndex];
 
-    console.log(`handleStripedPart partIndex ${partIndex}`, text, text.length);
+    // console.log(`handleStripedPart partIndex ${partIndex}`, text, text.length);
 
-    console.log(
-      ` lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 6)`,
-      lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 2),
-    );
-    console.log(` part.text`, part.text);
-    console.log(
-      ` firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 6)`,
-      firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 2),
-    );
+    // console.log(
+    //   ` lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 6)`,
+    //   lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 2),
+    // );
+    // console.log(` part.text`, part.text);
+    // console.log(
+    //   ` firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 6)`,
+    //   firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 2),
+    // );
     return (
       <>
         {text[partIndex - 1] ? (

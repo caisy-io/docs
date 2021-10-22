@@ -9,5 +9,7 @@ RUN yarn install --frozen-lockfile --check-files
 
 COPY ./ ./
 
+ARG 
+
 ENV NODE_ENV production
 CMD yarn build && yarn start 

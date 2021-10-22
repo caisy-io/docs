@@ -22,7 +22,7 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "@caisy/league": "^0.1.10",
+    "@caisy/league": "^0.1.12",
     "fuse.js": "^6.4.6",
     "graphql": "^15.6.0",
     "graphql-request": "^3.5.0",

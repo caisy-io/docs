@@ -1,19 +1,18 @@
 import { useRouter } from "next/router";
-import { getContent } from "../services/content";
+import { Article } from "../components/article/Article";
 
-const Page = () => {
+const Page = ({ NavigationTop, article, category, navigationItem }) => {
   const router = useRouter();
-  console.log(router);
 
-  return <div>Page</div>;
+  if (typeof window !== "undefined") {
+    console.log(` props`, { NavigationTop }, router.query, { article }, { category }, { navigationItem });
+  }
+
+  return <Article article={article} />;
 };
 
-export async function getStaticProps() {
-  return {
-    props: {
-      ...(await getContent()),
-    },
-  };
-}
+
+export {getStaticProps} from "../utils/getStaticProps";
+
 
 export default Page;
