@@ -7,7 +7,9 @@ const Bronze = css`
     border-radius: 16px;
     background-color: #252b37;
     color: #e4f0fb;
-    padding: 32px;
+    padding: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
     line-height: 1.6;
   }
   ul {

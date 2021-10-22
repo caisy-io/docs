@@ -169,10 +169,10 @@
     "@babel/helper-validator-identifier" "^7.14.9"
     to-fast-properties "^2.0.0"
 
-"@caisy/eslint-config-caisy@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@caisy/eslint-config-caisy/-/eslint-config-caisy-1.3.0.tgz#52f6ffcc0b5017f09a52cdc479336f60dfcd271d"
-  integrity sha512-Nsh+ZF7SRXIGwLxzLXpvB7WCZX1lJdIUaHn7xYibJJVnkZ7y5AUNLxn8kmfdpvI9Qn20YyAEGTnkH+Ky+DeICw==
+"@caisy/eslint-config-caisy@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@caisy/eslint-config-caisy/-/eslint-config-caisy-1.3.1.tgz#70b9c5c40bf082cda737969b37b5ed7ab8b1c041"
+  integrity sha512-JWY6Xz3ia9Jq74Q5G2d5VPUPE/wAaKv6TFPrxMR7bsBGHFAEtYA49tdJdByfgT0WsSPZC1vPMZ3zTvl0d7Ngaw==
 
 "@caisy/league@^0.1.12":
   version "0.1.12"
@@ -196,10 +196,10 @@
   resolved "https://registry.yarnpkg.com/@caisy/prettier/-/prettier-1.14.0.tgz#8094eab82423be87570a99ddd041ad47a9eab134"
   integrity sha512-BDlModJ8/VU2LHl9neHo2yvmxqTcCeDBe0RmuOeSCPwayQFWOUJKq3kEEaL9BJrN1vTBnCn+QqDHZKjYcQYlzw==
 
-"@caisy/tsconfig@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@caisy/tsconfig/-/tsconfig-1.6.0.tgz#13adab87563c9109bc044654a913f89ef17ede7a"
-  integrity sha512-8jOGbZC+ci/N8K0P3OJGYKxYD3UfgENqYS4VutXrFSWTEutM+XCuwQWVfxj4sb3pbMAT45/fdEswDTw0609BFA==
+"@caisy/tsconfig@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@caisy/tsconfig/-/tsconfig-1.6.1.tgz#9e8b3a0274a22fdba0923def235a72004bd9c428"
+  integrity sha512-M5SQGIMf4Mlnz10yhcnTzDqM6Uju5vGg7Z0S02zxJe//HhwxAc9ddCO8dVTOpgqj0xQ2zAaxYnrM9XFNsf6o/Q==
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
