@@ -188,6 +188,11 @@
     styled-components "5.3.0"
     webrix "1.4.3"
 
+"@caisy/tsconfig@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@caisy/tsconfig/-/tsconfig-1.6.0.tgz#13adab87563c9109bc044654a913f89ef17ede7a"
+  integrity sha512-8jOGbZC+ci/N8K0P3OJGYKxYD3UfgENqYS4VutXrFSWTEutM+XCuwQWVfxj4sb3pbMAT45/fdEswDTw0609BFA==
+
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz#db28b1c4368a259b60a97311d6a952d4fd01ac1a"

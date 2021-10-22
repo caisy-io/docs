@@ -10,6 +10,7 @@
     "lint:types": "next lint"
   },
   "devDependencies": {
+    "@caisy/tsconfig": "^1.6.0",
     "@types/react": "^17.0.24",
     "eslint": "^8.0.1",
     "eslint-config-next": "11.0.0",
