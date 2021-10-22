@@ -1,5 +1,5 @@
 import { TabPanel, Tabs } from "@caisy/league";
-import React, { useState, FC, Fragment } from "react";
+import React, { useState, FC } from "react";
 import { HeaderHeadline } from "../header-headline/HeaderHeadline";
 import { HeaderLogo } from "../header-logo/HeaderLogo";
 import { SNavigationTop } from "./styles/SNavigationTop";
@@ -20,53 +20,52 @@ export const NavigationTop: FC<INavigationTop> = ({ ...props }) => {
   const { NavigationTop } = useContent();
   const router = useRouter();
   const [currentTab, setCurrentTab] = useState(
-    NavigationTop?.items?.findIndex(item => 
-      item['slug'] == router?.query?.slug?.[0]) 
-      || 0);
+    NavigationTop?.items?.findIndex((item) => item["slug"] == router?.query?.slug?.[0]) || 0,
+  );
   //console.log(`useContent NavigationTop props: `, NavigationTop);
 
   return (
     <SNavigationTop>
-            <SNavigationTopInnerContainer>
-      <SNavigationTopFirstLine>
-        <Link href="/" shallow={true}>
-          <a>
-            <SNavigationTopSHeaderLeftContainer>
-              <HeaderLogo />
-              <HeaderHeadline />
-            </SNavigationTopSHeaderLeftContainer>
-          </a>
-        </Link>
-        <SNavigationTopSearch>
-          <HeaderSearch NavigationTop={NavigationTop} setCurrentTab={setCurrentTab}/>
-        </SNavigationTopSearch>
-      </SNavigationTopFirstLine>
-      <SNavigationTopTabsLine>
-        <Tabs 
-          initialValue={currentTab}
-          onChange={(newValue) => {
-            if (newValue != currentTab) {
-              setCurrentTab(newValue);
-            }
-          }}
-        >
-          {NavigationTop?.items?.map((item: any) => {
-            if (!item?.slug) return null;
-            return (
-              <TabPanel
-                key={item.id}
-                style={{ padding: 0 }}
-                title={
-                  <Link href={`/${item.slug ?? ""}`} shallow={true}>
-                    <a>{item.title ?? ""}</a>
-                  </Link>
-                }
-              ></TabPanel>
-            );
-          })}
-        </Tabs>
-      </SNavigationTopTabsLine>
-      {props.children}
+      <SNavigationTopInnerContainer>
+        <SNavigationTopFirstLine>
+          <Link href="/" shallow={true}>
+            <a>
+              <SNavigationTopSHeaderLeftContainer>
+                <HeaderLogo />
+                <HeaderHeadline />
+              </SNavigationTopSHeaderLeftContainer>
+            </a>
+          </Link>
+          <SNavigationTopSearch>
+            <HeaderSearch NavigationTop={NavigationTop} setCurrentTab={setCurrentTab} />
+          </SNavigationTopSearch>
+        </SNavigationTopFirstLine>
+        <SNavigationTopTabsLine>
+          <Tabs
+            initialValue={currentTab}
+            onChange={(newValue) => {
+              if (newValue != currentTab) {
+                setCurrentTab(newValue);
+              }
+            }}
+          >
+            {NavigationTop?.items?.map((item: any) => {
+              if (!item?.slug) return null;
+              return (
+                <TabPanel
+                  key={item.id}
+                  style={{ padding: 0 }}
+                  title={
+                    <Link href={`/${item.slug ?? ""}`} shallow={true}>
+                      <a>{item.title ?? ""}</a>
+                    </Link>
+                  }
+                ></TabPanel>
+              );
+            })}
+          </Tabs>
+        </SNavigationTopTabsLine>
+        {props.children}
       </SNavigationTopInnerContainer>
     </SNavigationTop>
   );

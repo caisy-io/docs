@@ -20,8 +20,7 @@ module.exports = function (plop) {
 
   var createStyledComp = {
     type: "add",
-    path:
-      "src/components/{{kebabCase name}}/styles/S{{pascalCase name}}{{pascalCase suffix}}.tsx",
+    path: "src/components/{{kebabCase name}}/styles/S{{pascalCase name}}{{pascalCase suffix}}.tsx",
     templateFile: files.styledComponent,
   };
 
@@ -37,7 +36,7 @@ module.exports = function (plop) {
     templateFile: files.cssSnippet,
   };
 
-  plop.setActionType("Usage:", function (answers, config, plop) {
+  plop.setActionType("Usage:", function (answers) {
     const { name, suffix } = answers;
     if (name && suffix) {
       return `Usage: 
@@ -106,8 +105,6 @@ module.exports = function (plop) {
   plop.setGenerator("css", {
     description: "Css Snippet",
     prompts: [getComponentName, getStyleSuffix],
-    actions: [
-      createCssSnippet,
-    ],
+    actions: [createCssSnippet],
   });
 };

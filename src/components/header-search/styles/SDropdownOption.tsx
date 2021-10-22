@@ -1,9 +1,5 @@
 import styled from "styled-components";
 
-interface ISDropdownOption {
-  selected: boolean | undefined;
-}
-
 export const SDropdownOption = styled.li<any>`
   display: block;
   margin-bottom: 20px;

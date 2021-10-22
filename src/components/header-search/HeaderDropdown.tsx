@@ -29,19 +29,19 @@ export interface IDropdownCategory {
 const MAX_DOPDOWN_OPTIONS = 5;
 
 export const lastLinesOfText = (text: string, lineNumber: number) => {
-    let lines = text.split(/(?:\r\n|\r|\n)/g);
-    if (lines.length > lineNumber) {
-      lines = lines.splice(lineNumber, lines.length - 1 );
-    }
-    return lines.join("")
+  let lines = text.split(/(?:\r\n|\r|\n)/g);
+  if (lines.length > lineNumber) {
+    lines = lines.splice(lineNumber, lines.length - 1);
+  }
+  return lines.join("");
 };
 
 export const firstLinesOfText = (text: string, lineNumber: number) => {
   let lines = text.split(/(?:\r\n|\r|\n)/g);
   if (lines.length > lineNumber) {
-      lines = lines.splice(0, lineNumber);
-    }
-    return lines.join("")
+    lines = lines.splice(0, lineNumber);
+  }
+  return lines.join("");
 };
 
 export const HeaderDropdown = ({
@@ -110,60 +110,70 @@ export const HeaderDropdown = ({
   const renderHighlightedText = (text) => {
     return text.map((part, index) => {
       return (
-        // part.highlighted ? 
+        // part.highlighted ?
         //   <span key={index} className='highlighted'>{part.text}</span>
-        // : 
-          <span key={index}>{part.text}</span>
+        // :
+        <span key={index}>{part.text}</span>
       );
     });
-  }
+  };
 
   const joinElementsText = (text, start, end) => {
-    const xstart = text[start] ? start : 0
-    const xend = (text[end] &&  end < text.length - 1 ) ? end : text.length - 1 
+    const xstart = text[start] ? start : 0;
+    const xend = text[end] && end < text.length - 1 ? end : text.length - 1;
     let count = 0;
-    let result: string = ""
-    while((count + xstart) <= xend) {
+    let result = "";
+    while (count + xstart <= xend) {
       result += text[xstart + count].text;
       count++;
     }
     return result;
-  }
+  };
 
-  const handleStripedPart = (text,partIndex ) => {
+  const handleStripedPart = (text, partIndex) => {
     const part = text[partIndex];
 
     console.log(`handleStripedPart partIndex ${partIndex}`, text, text.length);
 
-    console.log(` lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 6)`, lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 2));
+    console.log(
+      ` lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 6)`,
+      lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 2),
+    );
     console.log(` part.text`, part.text);
-console.log(` firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 6)`, firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 2));
+    console.log(
+      ` firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 6)`,
+      firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 2),
+    );
     return (
       <>
-        {text[partIndex - 1] ? <span key={partIndex - 1}>{lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 6) }</span> : null}
+        {text[partIndex - 1] ? (
+          <span key={partIndex - 1}>{lastLinesOfText(joinElementsText(text, partIndex - 30, partIndex - 1), 6)}</span>
+        ) : null}
         <span key={partIndex} className="highlighted">
           {part.text}
         </span>
-        {text[partIndex + 1] ? <span key={partIndex + 1}>{firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 6)}</span> : null}
+        {text[partIndex + 1] ? (
+          <span key={partIndex + 1}>{firstLinesOfText(joinElementsText(text, partIndex + 1, partIndex + 30), 6)}</span>
+        ) : null}
       </>
     );
-  }
+  };
 
   const renderHighlightedTextStripped = (text) => {
     // first loop for direct matches with search
     let partIndexDirect = 0;
     for (const part of text) {
       if (part.highlighted && part.text.toLowerCase().includes(searchInputValue.toLowerCase())) {
-       return handleStripedPart(text, partIndexDirect)
+        return handleStripedPart(text, partIndexDirect);
       }
       partIndexDirect++;
     }
 
-    // another loop if we did not find direct matches 
+    // another loop if we did not find direct matches
     let partIndexIndirect = 0;
     for (const part of text) {
-      if (part.highlighted ) {
-        return handleStripedPart(text, partIndexIndirect)
+      if (part.highlighted) {
+        return handleStripedPart(text, partIndexIndirect);
       }
       partIndexIndirect++;
     }

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { getContent } from "../services/content";
 
-const Page = (props) => {
+const Page = () => {
   const router = useRouter();
   console.log(router);
 

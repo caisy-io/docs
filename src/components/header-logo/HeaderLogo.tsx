@@ -3,7 +3,7 @@ import { useContent } from "../../hooks/content";
 import { SHeaderLogo } from "./styles/SHeaderLogo";
 import { Img } from "@caisy/league";
 
-export const HeaderLogo: React.FC = ({ ...props }) => {
+export const HeaderLogo: React.FC = () => {
   const c = useContent();
 
   if (!c.NavigationTop?.logo?.src) {

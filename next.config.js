@@ -1,5 +1,5 @@
 // const withTM = require('next-transpile-modules')(['@caisy/league']);
 
-module.exports = ({
+module.exports = {
   reactStrictMode: true,
-});
+};

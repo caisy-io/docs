@@ -7,7 +7,7 @@ import { NavigationTop } from "../components/navigation-top/NavigationTop";
 import { GSBaseDocs } from "../constants/styles/global-style";
 import { ContentContext } from "../hooks/content";
 
-const App = ({ Component, pageProps }: AppProps) =>  {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
@@ -35,6 +35,6 @@ const App = ({ Component, pageProps }: AppProps) =>  {
       </Theme>
     </>
   );
-}
+};
 
 export default App;

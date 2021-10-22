@@ -14,8 +14,8 @@ export const SDropdownOptionHeader = styled.h3`
   color: var(--neutral-500);
 
   .title__headline {
-      display: contents;
-      font-weight: bold;
-      color: var(--neutral-600);
-    }
+    display: contents;
+    font-weight: bold;
+    color: var(--neutral-600);
+  }
 `;

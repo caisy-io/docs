@@ -5,7 +5,8 @@ export const SDropdown = styled.ul<any>`
   min-height: auto;
   max-height: 500px;
   padding-bottom: 8px;
-  .title, .dropdown-option {
+  .title,
+  .dropdown-option {
     .highlighted {
       font-weight: 700;
       /* background-color: var(--primary-200); */

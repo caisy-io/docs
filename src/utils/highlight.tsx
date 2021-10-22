@@ -1,6 +1,6 @@
 // src: https://gist.github.com/evenfrost/1ba123656ded32fb7a0cd4651efd4db0
 const set = (obj: object, path: string, value: any) => {
-  const pathValue = path.split('.');
+  const pathValue = path.split(".");
   let i;
 
   for (i = 0; i < pathValue.length - 1; i++) {
@@ -10,17 +10,15 @@ const set = (obj: object, path: string, value: any) => {
   obj[pathValue[i]] = value;
 };
 
-const highlight = (fuseSearchResult: any, searchInputValue: string) => {
-
+const highlight = (fuseSearchResult: any) => { //searchInputValue: string
   // do normal matches and then highlight only the ones that are exact matches
   // sort all the matches so the ones with real highlight are infront
   // return only the first result (first line plus next 2 lines of the result text)
   const generateHighlightedText = (inputText: string, regions: number[] = []) => {
-    let content = [];
+    const content = [];
     let nextUnhighlightedRegionStartingIndex = 0;
 
-    regions.forEach(region => {
-
+    regions.forEach((region) => {
       // optional version filtering with search result
       // const lastRegionNextIndex = region[1] + 1;
       // const selectionIncluding30More = inputText.substring(region[0] - 30, region[1] + 30);
@@ -34,13 +32,13 @@ const highlight = (fuseSearchResult: any, searchInputValue: string) => {
       // }
 
       const lastRegionNextIndex = region[1] + 1;
-      content.push({text: inputText.substring(nextUnhighlightedRegionStartingIndex, region[0])});
-      content.push({highlighted: true, text: inputText.substring(region[0], lastRegionNextIndex)});
+      content.push({ text: inputText.substring(nextUnhighlightedRegionStartingIndex, region[0]) });
+      content.push({ highlighted: true, text: inputText.substring(region[0], lastRegionNextIndex) });
 
       nextUnhighlightedRegionStartingIndex = lastRegionNextIndex;
     });
 
-    content.push({text: inputText.substring(nextUnhighlightedRegionStartingIndex)});
+    content.push({ text: inputText.substring(nextUnhighlightedRegionStartingIndex) });
     return content;
   };
 
@@ -55,4 +53,4 @@ const highlight = (fuseSearchResult: any, searchInputValue: string) => {
     });
 };
 
-export { highlight }
+export { highlight };

@@ -7,28 +7,30 @@ import { useContent } from "../../hooks/content";
 export const NavAside: React.FC = () => {
   const router = useRouter();
   const { NavigationTop } = useContent();
- 
+
   return (
     <aside>
       <>
         {router.query.slug?.length > 0 ? (
           (NavigationTop as any).items.map((nav) =>
-            nav.items.map(
-              (category) => {
-                return router.query.slug[0] === nav.slug ? (
-                  <MenuItemNestableAsFunction key={category.id} active={router.query.slug?.[1] === category.slug} collapsed={!router.query.slug?.[1] === category.slug}>
-                    {category.title}
-                    {category.items?.map((article) => (
-                      <Link key={article.id} href={`/${nav.slug}/${category.slug}/${article.slug}`}>
-                        <MenuItemNestableAsFunction active={router.query.slug?.[2] === article.slug}>
-                          {article.headline}
-                        </MenuItemNestableAsFunction>
-                      </Link>
-                    )) ?? null}
-                  </MenuItemNestableAsFunction>
-                ) : null
-              },
-            ),
+            nav.items.map((category) => {
+              return router.query.slug[0] === nav.slug ? (
+                <MenuItemNestableAsFunction
+                  key={category.id}
+                  active={router.query.slug?.[1] === category.slug}
+                  collapsed={!router.query.slug?.[1] === category.slug}
+                >
+                  {category.title}
+                  {category.items?.map((article) => (
+                    <Link key={article.id} href={`/${nav.slug}/${category.slug}/${article.slug}`}>
+                      <MenuItemNestableAsFunction active={router.query.slug?.[2] === article.slug}>
+                        {article.headline}
+                      </MenuItemNestableAsFunction>
+                    </Link>
+                  )) ?? null}
+                </MenuItemNestableAsFunction>
+              ) : null;
+            }),
           )
         ) : (
           <MenuItemNestableAsFunction

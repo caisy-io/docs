@@ -32,7 +32,7 @@ export const HeaderSearch: FC<IHeaderSearch> = ({ ...props }) => {
 
   useEffect(() => {
     fuse.current?.setCollection(categoriesData);
-  }, [ fuse.current, categoriesData ]);
+  }, [fuse.current, categoriesData]);
 
   const [searchResults, setSearchResults] = useState<IDropdownCategory[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
@@ -67,9 +67,9 @@ export const HeaderSearch: FC<IHeaderSearch> = ({ ...props }) => {
     if (e.target.value.length > 0 && fuse.current) {
       // console.log('search text',  e.target.value);
       const fuseSearchResult = fuse.current.search(e.target.value);
-      console.log('fuseSearchResult', fuseSearchResult);
+      console.log("fuseSearchResult", fuseSearchResult);
       const highlighted = highlight(fuseSearchResult, inputValue);
-      console.log('highlighted', highlighted);
+      console.log("highlighted", highlighted);
       setSearchResults(highlighted);
     } else {
       setSearchResults([]);
@@ -82,8 +82,6 @@ export const HeaderSearch: FC<IHeaderSearch> = ({ ...props }) => {
     setSearchResults([]);
     setInputValue("");
   };
-
-
 
   const onClick = () => {
     setCurrentOptionIndex(-1);

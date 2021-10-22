@@ -4,7 +4,8 @@ export const SDropdownOptionItem = styled.a`
   display: inline-block;
   width: 100%;
 
-  &:hover, &.selected {
+  &:hover,
+  &.selected {
     //color: var(--primary-400);
     background-color: var(--primary-100);
     cursor: pointer;
