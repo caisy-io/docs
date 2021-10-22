@@ -67,9 +67,7 @@ export const HeaderSearch: FC<IHeaderSearch> = ({ ...props }) => {
     if (e.target.value.length > 0 && fuse.current) {
       // console.log('search text',  e.target.value);
       const fuseSearchResult = fuse.current.search(e.target.value);
-      console.log("fuseSearchResult", fuseSearchResult);
-      const highlighted = highlight(fuseSearchResult, inputValue);
-      console.log("highlighted", highlighted);
+      const highlighted = highlight(fuseSearchResult);
       setSearchResults(highlighted);
     } else {
       setSearchResults([]);
@@ -85,10 +83,10 @@ export const HeaderSearch: FC<IHeaderSearch> = ({ ...props }) => {
 
   const onClick = () => {
     setCurrentOptionIndex(-1);
-    setSearchResults(inputValue.length > 0 ? highlight(fuse.current?.search(inputValue), inputValue) : []);
+    setSearchResults(inputValue.length > 0 ? highlight(fuse.current?.search(inputValue)) : []);
     if (!dropdownOpen) setDropdownOpen(!dropdownOpen);
   };
-  console.log(` searchResults`, searchResults);
+  
   return (
     <SHeaderSearch ref={containerRef}>
       <Input
